@@ -18,27 +18,36 @@ Once the project moves into development, the press release can be used as a touc
  
 ## Heading ##
   > Name the product in a way the reader (i.e. your target customers) will understand.
+  Online quiz game
 
 ## Sub-Heading ##
   > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  Anyone wanting to moderate/set-up a private quiz-based game
 
 ## Summary ##
   > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  The online quizzer will make it possible to set up a private room invited users can connect to. The room can select from a category of quiz questions, create and manage teams, keep track of scores, etc. This streamlines the process for organizing and setting up a quiz game to a larger audience.
 
 ## Problem ##
   > Describe the problem your product solves.
+  A room full of people (ie. in a pub) want to play a quizzical game. This streamlines the set-up and flow.
 
 ## Solution ##
   > Describe how your product elegantly solves the problem.
+  Allows users to join the game and answer questions via cell phones. Having a centralized and semi-automated system lowers set-up time.
 
 ## Quote from You ##
   > A quote from a spokesperson in your company.
+  If this app were a question, it would be it's own answer.
 
 ## How to Get Started ##
   > Describe how easy it is to get started.
+  Go to url, enter name, choose team, win.
 
 ## Customer Quote ##
   > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  Now I have extra time to engage in the meaningless smalltalk I enjoy so much.
 
 ## Closing and Call to Action ##
   > Wrap it up and give pointers where the reader should go next.
+  If you have any questions about life, check out quizzr.
