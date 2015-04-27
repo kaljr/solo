@@ -10,5 +10,14 @@
   </head>
   <body>
     Welcome to quiz game
+    <div id="userInfo"></div>
   </body>
+  <script>
+    $(document).ready(function() {
+
+      var user = new User({name:'someuser'});
+      new UserView({model: user,el: $('#userInfo')});
+      console.log('ready');
+    });
+  </script>
 </html>
