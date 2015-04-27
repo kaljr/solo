@@ -1,20 +1,15 @@
-var express = require('express');
-var socketio = require('socket.io');
-var http = require('http');
-var path = require('path');
+// open socket to server
+var socket = io.connect('http://kenemon.com:3000');
 
-var app = express();
-var server = http.Server(app);
-var io = socketio(server);
+// on connection
+socket.on('connectMessage', function (data) {
+    console.log(data);
 
-// listen on port 3000
-server.listen(3000);
+    // send message to server declaring this socket to be admin
+    socket.emit('IamAdmin', { adminSecret: 'kennyynnek' });
 
-console.log('listening on port 3000');
-// when there is a connection, do this
-io.on('connection', function (socket) {
-  console.log('someone connected');
-  socket.emit('connectMessage', {
-    message: 'you are connected'
-  });
+    // set up listener for server user data updates
+    socket.on('userDataPush', function(data) {
+      console.log(data);
+    });
 });
