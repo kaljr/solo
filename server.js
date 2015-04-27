@@ -34,6 +34,7 @@ io.on('connection', function (socket) {
   socket.on('IamAdmin', function(data) {
     if(data.adminSecret === 'kennyynnek') {
       console.log('admin connected');
+      socket.emit('userDataPush', {users: sockets});
     } else {
       console.log('admin not connected');
     }

@@ -1,3 +1,31 @@
+
+// Create Backbone User Model
+var User = Backbone.Model.extend({
+
+});
+
+// Create Backbone Users Table (Collection)
+var Users = Backbone.Collection.extend({
+  model: User
+});
+
+// Create Backbone Users Table View
+var UsersTable = Backbone.View.extend({
+  initialize: function() {
+    this.model.on('change add remove', this.render, this);
+    this.render();
+  },
+
+  className: 'usersTable',
+
+  render: function() {
+    return this.$el.append('<div>some User</div>');
+  }
+
+});
+
+
+
 // open socket to server
 var socket = io.connect('http://kenemon.com:3000');
 
