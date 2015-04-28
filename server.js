@@ -31,7 +31,7 @@ io.on('connection', function (socket) {
   socket.on('IamAdmin', function(data) {
     if(data.adminSecret === 'kennyynnek') {
       console.log('admin connected');
-      socket.emit('userDataPush', {users: sockets});
+      socket.emit('usersDataPush', {users: sockets});
     } else {
       console.log('admin not connected');
     }
@@ -40,6 +40,7 @@ io.on('connection', function (socket) {
   socket.on('userName', function(data) {
     // add object associated with this socketid to sockets array
     sockets.push({id: socket.id, name: data.name, score: 0, team: null});
+    socket.emit('userDataPush', sockets[sockets.length-1]);
   });
 
 

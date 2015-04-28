@@ -27,7 +27,7 @@ var UsersTable = Backbone.View.extend({
 
 // create function to connect with server as admin
 var connectAsAdmin = function() {
-  
+
   // Get value from password field
   var pw = $('#password').val();
 
@@ -42,7 +42,7 @@ var connectAsAdmin = function() {
       socket.emit('IamAdmin', { adminSecret: pw});
 
       // set up listener for server user data updates
-      socket.on('userDataPush', function(data) {
+      socket.on('usersDataPush', function(data) {
         console.log(data);
       });
   });

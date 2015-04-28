@@ -10,10 +10,15 @@ var UserView = Backbone.View.extend({
     this.render();
   },
 
+  template: _.template('<span class="name"><%= name %></span><span class="score"><%= score %></span>'),
+
   render: function() {
-    return this.$el.append('<div>user</div>');
+    return this.$el.html(this.template(this.model.toJSON()));
   }
 });
+
+// initalize user var
+var user = null;
 
 // open socket to server
 var socket = io.connect('http://kenemon.com:3000');
@@ -23,4 +28,12 @@ socket.on('connectMessage', function (data) {
   console.log(data);
   var name  = prompt('Enter your name:');
   socket.emit('userName', { name: name });
+});
+
+// after user enters name
+socket.on('userDataPush', function(data) {
+  // create backbone models/views, associate with DOM
+  user = new User(data);
+  new UserView({model: user,el: $('#userInfo')});
+  console.log('here is your info: ', data);
 });
