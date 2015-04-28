@@ -4,6 +4,7 @@ body {
   font-size: 36px;
   margin: 0;
   padding: 0;
+  overflow: auto;
 }
 
 .top {
@@ -29,7 +30,6 @@ body {
   height: 50px;
   padding: 0px 10px 0px 10px;
   display: inline-block;
-  border-right: 1px solid #666;
   text-align: right;
 }
 
@@ -45,9 +45,40 @@ body {
   width: 100%;
   height: 50px;
   margin:0;
-  background: #666;
-  font-size: 32px;
-  color: #ccc;
+  border: 0;
+  background:#D6D0F0;
+  font-size:32px;
+  color: #6A30DB;
+  display:block;
+  font-face: serif;
+}
+
+.answer:nth-child(4n+2) {
+  background: #DBFFF6;
+  color: #2ECDD1;
+}
+
+.answer:nth-child(4n+3) {
+  background: #D9FFDD;
+  color: #4AD128;
+}
+
+.answer:nth-child(4n+4) {
+  background: #FFF7BC;
+  color: #DBAE30;
+}
+
+.answer:nth-child(4n+5) {
+  background: #FFE7E5;
+  color: #C44035;
+}
+
+.answer:hover {
+  background: #ccccff;
+}
+
+.answer:active {
+  background: #ccccff;
 }
 
 #userInfo {
@@ -65,4 +96,34 @@ body {
 #answerBox {
   width: 100%;
   height: 400px;
+  padding:0;
+}
+
+@media only screen and (max-device-width: 780px) {
+  .top {
+    height: 120px;
+  }
+  .name {
+    height: 120px;
+    font-size: 72px;
+  }
+  .logo {
+    height: 120px;
+    width: 120px;
+    font-size: 72px;
+  }
+  .score {
+    height: 120px;
+    font-size: 72px;
+  }
+
+  .answer {
+    height: 150px;
+    font-size: 72px;
+  }
+
+  #questionBox {
+    padding: 40px 20px 10px 20px;
+    font-size: 80px;
+  }
 }

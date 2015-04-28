@@ -21,13 +21,13 @@ var quizStarted = false;
 var maxPlayers = 2;
 var currentQ = null; // current question 
 var timeToAnswer = 10 * 1000; // time given to answer question
-var timeBetweenQs = 5 * 1000; // time to wait before asking next question
+var timeBetweenQs = 3 * 1000; // time to wait before asking next question
 var startTime = null;
 
 // create questions array (question, answer, wrong answers)
 var questions = [
   {q: 'What color is the sky?',a: 'blue',na: 'red;green;orange;yellow'},
-  {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt'},
+  {q: 'Why did the chicken cross the road?',a: 'Other', na: 'Hack Reactor;Onions;Yard sale;It didnt'},
 ];
 
 // nextQ

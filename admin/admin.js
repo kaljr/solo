@@ -12,7 +12,7 @@ var UserView = Backbone.View.extend({
     this.model.on('change', this.render, this);
     //this.render();
   },
-  template: _.template('<div><span class="name"><%= name %></span><span class="score"><%= score %></span><div>'),
+  template: _.template('<div class="user"><span class="name"><%= name %></span><span class="score"><%= score %></span></div>'),
   render: function() {
     return this.$el.html(this.template(this.model.toJSON()));
   }
