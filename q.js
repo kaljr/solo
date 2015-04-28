@@ -1,3 +1,4 @@
+/////// BACKBONE MODELS and VIEWS //////////////
 // create Backbone user model
 var User = Backbone.Model.extend({
 
@@ -14,6 +15,37 @@ var UserView = Backbone.View.extend({
 
   render: function() {
     return this.$el.html(this.template(this.model.toJSON()));
+  }
+});
+
+// create question model
+var Q = Backbone.Model.extend({
+
+});
+
+// create question view
+var QView = Backbone.View.extend({
+
+});
+
+// create answer model
+var A = Backbone.Model.extend({
+
+});
+
+// create answers collection
+var AS = Backbone.Collection.extend({
+  model: A
+});
+
+// create answers views
+var ASView = Backbone.View.extend({
+  initialize: function() {
+    this.collection.on('change add remove', this.render, this);
+    this.render();
+  },
+  render: function() {
+
   }
 });
 
@@ -40,4 +72,11 @@ socket.on('userDataPush', function(data) {
   user = new User(data);
   new UserView({model: user,el: $('#userInfo')});
   console.log('here is your info: ', data);
+});
+
+// server sends us a question!
+socket.on('question', function(q) {
+  // update question model
+  // update timer model
+  // update answers model
 });

@@ -17,7 +17,8 @@ console.log('listening on port 3000');
 var sockets = []; // create sockets array (holds all connections)
 var adminSocket = null;
 var quizFull = false;
-var maxPlayers = 15;
+var maxPlayers = 2;
+var currentQ = null;
 
 // create function to check if quiz is full
 var isQuizFull = function() {
@@ -32,6 +33,20 @@ var questions = [
   {q: 'What color is the sky?',a: 'blue',na: 'red;green;orange;yellow;'},
   {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt;'},
 ];
+
+// function for sending emit to all connected sockets
+var sendAll = function(messageType, data) {
+  sockets.forEach(function(socket) {
+    socket.emit(messageType, data);
+  })
+};
+
+// function for asking a question
+var askQ = function(q) {
+  currentQ = q;
+  sendAll('question', {q: q.q});
+};
+
 
 // when there is a connection, do this
 io.on('connection', function (socket) {
@@ -61,6 +76,16 @@ io.on('connection', function (socket) {
     sockets.push({id: socket.id, name: data.name, score: 0, team: null});
     socket.emit('userDataPush', sockets[sockets.length-1]);
     if(adminSocket) adminSocket.emit('usersDataPush', {users: sockets}) // push to admin page
+  });
+
+  // handle answer from players
+  socket.on('answer', function(data) {
+    if(data.a === q.a) {
+      // right answer
+    } else {
+      // wrong answer
+    }
+    
   });
 
 

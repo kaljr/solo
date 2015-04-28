@@ -1,0 +1,17 @@
+body {
+  background: #f1f1f1;
+  color: #333;
+  font-size: 36px;
+}
+.name {
+  width: 300px;
+}
+
+.score {
+  width: 50px;
+  text-align: center;
+}
+
+#userInfo {
+  display: inline-block;
+}
