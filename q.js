@@ -47,9 +47,12 @@ var ASView = Backbone.View.extend({
   render: function() {
     var rendered = '';
     this.collection.toJSON().forEach(function(answer) {
-      rendered += '<div class="answer">'+answer.a+'</div>';
+      rendered += '<button class="answer" value="'+answer.a+'">'+answer.a+'</button>';
     });
-    return this.$el.html(rendered);
+    this.$el.html(rendered);
+    $('.answer').on('click', function(e) {
+      console.log(e.currentTarget.innerText);
+    });
   }
 });
 
