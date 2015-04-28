@@ -17,9 +17,11 @@ console.log('listening on port 3000');
 var userData = [];
 var adminSocket = null; // special socket for admin
 var quizFull = false;
+var quizStarted = false;
 var maxPlayers = 2;
 var currentQ = null; // current question 
-var timeToAnswer = 10; // time given to answer question
+var timeToAnswer = 10 * 1000; // time given to answer question
+var timeBetweenQs = 5 * 1000; // time to wait before asking next question
 var startTime = null;
 
 // create questions array (question, answer, wrong answers)
@@ -31,7 +33,7 @@ var questions = [
 // nextQ
 var nextQ = function() {
   currentQ = questions.shift();
-  setTimeout(endQ, timeToAnswer*1000);
+  setTimeout(endQ, timeToAnswer);
   askQ(currentQ);
   // parse answers // send answers
   sendAnswers(parseAnswers(currentQ));
@@ -40,13 +42,21 @@ var nextQ = function() {
 
 var endQ = function() {
   sendAll('endQ', {end: true});
+  if(adminSocket) adminSocket.emit('usersDataPush', {users: userData}) // push to admin page
+  if(questions.length > 0) {
+    setTimeout(nextQ, timeBetweenQs)
+  } else {
+    // game is over, send game over event, tell winner
+    console.log('game is over peeps');
+  }
 };
 
 // create function to check if quiz is full
 var isQuizFull = function() {
-  if(userData.length >= maxPlayers) {
+  if(userData.length >= maxPlayers && !quizStarted) {
     quizFull = true;
     nextQ(); // start quiz
+    quizStarted = true;
   }
   return quizFull;
 };

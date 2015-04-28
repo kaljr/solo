@@ -30,10 +30,11 @@ body {
   padding: 0px 10px 0px 10px;
   display: inline-block;
   border-right: 1px solid #666;
+  text-align: right;
 }
 
 .score {
-  width: 50px;
+  width: 100px;
   height: 50px;
   text-align: center;
   padding: 0px 10px 0px 10px;
@@ -43,6 +44,7 @@ body {
 .answer {
   width: 100%;
   height: 50px;
+  margin:0;
   background: #666;
   font-size: 32px;
   color: #ccc;

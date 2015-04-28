@@ -41,7 +41,7 @@ var AS = Backbone.Collection.extend({
 // create answers views
 var ASView = Backbone.View.extend({
   initialize: function() {
-    this.collection.on('change add remove', this.render, this);
+    this.collection.on('change add remove reset', this.render, this);
     this.render();
   },
   render: function() {
@@ -108,7 +108,7 @@ socket.on('question', function(q) {
 
 socket.on('answers', function(ans) {
   // update answers model
-  answers.add(ans);
+  answers.reset(ans);
 });
 
 socket.on('endQ', function() {
