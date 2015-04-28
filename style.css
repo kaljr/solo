@@ -1,17 +1,58 @@
 body {
-  background: #f1f1f1;
-  color: #333;
+  background: #fff;
+  color: #666;
   font-size: 36px;
+  margin: 0;
+  padding: 0;
 }
+
+.top {
+  width: 100%;
+  height: 50px;
+  background: #f1f1f1;
+  padding: 0px 10px 0px 10px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin: 0;
+  padding: 0px 10px 0px 10px;
+  background: #d6d6d6;
+  display:inline-block;
+  font-size: 38px;
+  text-align: center;
+}
+
 .name {
   width: 300px;
+  height: 50px;
+  padding: 0px 10px 0px 10px;
+  display: inline-block;
+  border-right: 1px solid #666;
 }
 
 .score {
   width: 50px;
+  height: 50px;
   text-align: center;
+  padding: 0px 10px 0px 10px;
+  display: inline-block;
 }
 
 #userInfo {
   display: inline-block;
+}
+
+#questionBox {
+  width: 100%;
+  height: 300px;
+  padding: 20px;
+  color: #999;
+  text-align: center;
+}
+
+#answerBox {
+  width: 100%;
+  height: 400px;
 }

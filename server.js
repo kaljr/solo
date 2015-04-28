@@ -14,19 +14,11 @@ server.listen(3000);
 console.log('listening on port 3000');
 
 // initialize vars
-var sockets = []; // create sockets array (holds all connections)
-var adminSocket = null;
+var userData = [];
+var adminSocket = null; // special socket for admin
 var quizFull = false;
 var maxPlayers = 2;
-var currentQ = null;
-
-// create function to check if quiz is full
-var isQuizFull = function() {
-  if(sockets.length >= maxPlayers) {
-    quizFull = true;
-  }
-  return quizFull;
-};
+var currentQ = null; // current question 
 
 // create questions array (question, answer, wrong answers)
 var questions = [
@@ -34,17 +26,30 @@ var questions = [
   {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt;'},
 ];
 
+// start quiz
+var startQuiz = function() {
+  askQ();
+};
+
+// create function to check if quiz is full
+var isQuizFull = function() {
+  if(userData.length >= maxPlayers) {
+    quizFull = true;
+    startQuiz();
+  }
+  return quizFull;
+};
+
+
 // function for sending emit to all connected sockets
 var sendAll = function(messageType, data) {
-  sockets.forEach(function(socket) {
-    socket.emit(messageType, data);
-  })
+    io.emit(messageType, data);
 };
 
 // function for asking a question
-var askQ = function(q) {
-  currentQ = q;
-  sendAll('question', {q: q.q});
+var askQ = function() {
+  currentQ = questions.shift();
+  sendAll('question', {q: currentQ.q});
 };
 
 
@@ -56,7 +61,7 @@ io.on('connection', function (socket) {
   // send message to acknowledge connection
   socket.emit('connectMessage', {
     message: 'you are connected',
-    socketInfo: sockets[sockets.length-1],
+    socketInfo: userData[userData.length-1],
     full: isQuizFull()
   });
 
@@ -64,7 +69,7 @@ io.on('connection', function (socket) {
   socket.on('IamAdmin', function(data) {
     if(data.adminSecret === 'kennyynnek') {
       console.log('admin connected');
-      socket.emit('usersDataPush', {users: sockets});
+      socket.emit('usersDataPush', {users: userData});
       adminSocket = socket;
     } else {
       console.log('admin not connected');
@@ -73,9 +78,10 @@ io.on('connection', function (socket) {
 
   socket.on('userName', function(data) {
     // add object associated with this socketid to sockets array
-    sockets.push({id: socket.id, name: data.name, score: 0, team: null});
-    socket.emit('userDataPush', sockets[sockets.length-1]);
-    if(adminSocket) adminSocket.emit('usersDataPush', {users: sockets}) // push to admin page
+    userData.push({id: socket.id, name: data.name, score: 0, team: null});
+    socket.emit('userDataPush', userData[userData.length-1]);
+    if(adminSocket) adminSocket.emit('usersDataPush', {users: userData}) // push to admin page
+    isQuizFull();
   });
 
   // handle answer from players
@@ -85,7 +91,7 @@ io.on('connection', function (socket) {
     } else {
       // wrong answer
     }
-    
+
   });
 
 

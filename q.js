@@ -1,8 +1,6 @@
 /////// BACKBONE MODELS and VIEWS //////////////
 // create Backbone user model
-var User = Backbone.Model.extend({
-
-});
+var User = Backbone.Model.extend({});
 
 // create Backbone View for user info
 var UserView = Backbone.View.extend({
@@ -11,7 +9,7 @@ var UserView = Backbone.View.extend({
     this.render();
   },
 
-  template: _.template('<span class="name"><%= name %></span><span class="score"><%= score %></span>'),
+  template: _.template('<div class="name"><%= name %></div><div class="score"><%= score %></div>'),
 
   render: function() {
     return this.$el.html(this.template(this.model.toJSON()));
@@ -19,19 +17,21 @@ var UserView = Backbone.View.extend({
 });
 
 // create question model
-var Q = Backbone.Model.extend({
-
-});
+var Q = Backbone.Model.extend({});
 
 // create question view
 var QView = Backbone.View.extend({
-
+  initialize: function() {
+    this.model.on('change add remove', this.render, this);
+    this.render();
+  },
+  render: function() {
+    return this.$el.html(this.model.get('q'));
+  }
 });
 
 // create answer model
-var A = Backbone.Model.extend({
-
-});
+var A = Backbone.Model.extend({});
 
 // create answers collection
 var AS = Backbone.Collection.extend({
@@ -49,8 +49,10 @@ var ASView = Backbone.View.extend({
   }
 });
 
-// initalize user var
+// initalize vars
 var user = null;
+var question = null;
+var answers = null;
 
 // open socket to server
 var socket = io.connect('http://kenemon.com:3000');
@@ -62,7 +64,11 @@ socket.on('connectMessage', function (data) {
     alert('Sorry, quiz is full, try back later');
   } else {
     var name  = prompt('Enter your name:');
-    socket.emit('userName', { name: name });
+    if(name) {
+      socket.emit('userName', { name: name });
+    } else {
+      alert('Invalid name. Perhaps this isn\'t the game for you');
+    }
   }
 });
 
@@ -72,11 +78,16 @@ socket.on('userDataPush', function(data) {
   user = new User(data);
   new UserView({model: user,el: $('#userInfo')});
   console.log('here is your info: ', data);
+  // question model/view
+  question = new Q({q: 'Waiting for the game to start...'});
+  new QView({model: question,el: $('#questionBox')});
 });
 
 // server sends us a question!
 socket.on('question', function(q) {
+  console.log('incoming question! ',q.q);
   // update question model
+  question.set('q',q.q);
   // update timer model
   // update answers model
 });
