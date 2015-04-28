@@ -1,5 +1,6 @@
 //Initialize Users var
 var allUsers = null;
+var socket = null;
 
 // Create Backbone User Model
 var User = Backbone.Model.extend({
@@ -57,7 +58,7 @@ var connectAsAdmin = function() {
   var pw = $('#password').val();
 
   // open socket to server
-  var socket = io.connect('http://kenemon.com:3000');
+  socket = io.connect('http://kenemon.com:3000');
 
   // on connection
   socket.on('connectMessage', function (data) {
@@ -76,4 +77,8 @@ var connectAsAdmin = function() {
 
   return socket;
   
+}
+
+var startQuiz = function() {
+  socket.emit('startQuiz', {});
 }

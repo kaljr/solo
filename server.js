@@ -32,7 +32,9 @@ var questions = [
 
 // nextQ
 var nextQ = function() {
-  currentQ = questions.shift();
+  quizFull = true;
+  quizStarted = true;
+  currentQ = questions.pop();
   setTimeout(endQ, timeToAnswer);
   askQ(currentQ);
   // parse answers // send answers
@@ -48,6 +50,7 @@ var endQ = function() {
   } else {
     // game is over, send game over event, tell winner
     console.log('game is over peeps');
+    io.emit('gameOver', {});
   }
 };
 
@@ -55,8 +58,8 @@ var endQ = function() {
 var isQuizFull = function() {
   if(userData.length >= maxPlayers && !quizStarted) {
     quizFull = true;
-    nextQ(); // start quiz
-    quizStarted = true;
+    //nextQ(); // start quiz
+    //quizStarted = true;
   }
   return quizFull;
 };
@@ -147,6 +150,8 @@ io.on('connection', function (socket) {
     console.log('user requested data ', socket.id);
     socket.emit('updatedData', getUser(userData,socket.id));
   });
+
+  socket.on('startQuiz', nextQ);
 
 
 });

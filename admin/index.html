@@ -14,8 +14,9 @@
       <div class="logo">Q.admin</div>
       <input class="password" type="password" id="password"></input>
       <button id="login">Log In</button>
+      <button id="startGame">Start</button>
     </div>
-    
+
     <div class='tableContainer'>
       <div class="title">Players</div>
       <div id="userTable">
@@ -27,7 +28,7 @@
   $(document).ready(function() {
     // listen for click on admin button
     $('#login').on('click', connectAsAdmin);
-
+    $('#startGame').on('click', startQuiz);
 
     console.log('ready');
   });
