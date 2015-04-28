@@ -20,6 +20,7 @@ var socket = io.connect('http://kenemon.com:3000');
 
 // on connection
 socket.on('connectMessage', function (data) {
-    console.log(data);
-    //socket.emit('my other event', { my: 'clientHTML' });
-  });
+  console.log(data);
+  var name  = prompt('Enter your name:');
+  socket.emit('userName', { name: name });
+});

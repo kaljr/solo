@@ -21,9 +21,6 @@ io.on('connection', function (socket) {
 
   console.log('someone connected'); // log to server window
 
-  // add object associated with this socketid to sockets array
-  sockets.push({id: socket.id, name: null, score: 0, team: null});
-
   // send message to acknowledge connection
   socket.emit('connectMessage', {
     message: 'you are connected',
@@ -38,7 +35,12 @@ io.on('connection', function (socket) {
     } else {
       console.log('admin not connected');
     }
-  })
+  });
+
+  socket.on('userName', function(data) {
+    // add object associated with this socketid to sockets array
+    sockets.push({id: socket.id, name: data.name, score: 0, team: null});
+  });
 
 
 });

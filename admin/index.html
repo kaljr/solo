@@ -10,11 +10,13 @@
   </head>
   <body>
     Welcome to quiz game admin panel
+    <input type="password" id="password"></input>
+    <button id="login">Log In</button>
     <div id="userTable"></div>
   </body>
   <script>
   $(document).ready(function() {
-
+    $('#login').on('click', connectAsAdmin);
     var allUsers = new Users({name:'someuser'});
     new UsersTable({model: allUsers,el: $('#userTable')});
     console.log('ready');
