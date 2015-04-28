@@ -19,6 +19,8 @@ var adminSocket = null; // special socket for admin
 var quizFull = false;
 var maxPlayers = 2;
 var currentQ = null; // current question 
+var timeToAnswer = 10; // time given to answer question
+var startTime = null;
 
 // create questions array (question, answer, wrong answers)
 var questions = [
@@ -26,23 +28,28 @@ var questions = [
   {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt'},
 ];
 
-// start quiz
-var startQuiz = function() {
+// nextQ
+var nextQ = function() {
   currentQ = questions.shift();
+  setTimeout(endQ, timeToAnswer*1000);
   askQ(currentQ);
   // parse answers // send answers
   sendAnswers(parseAnswers(currentQ));
+  startTime = Date.now();
+};
+
+var endQ = function() {
+  sendAll('endQ', {end: true});
 };
 
 // create function to check if quiz is full
 var isQuizFull = function() {
   if(userData.length >= maxPlayers) {
     quizFull = true;
-    startQuiz();
+    nextQ(); // start quiz
   }
   return quizFull;
 };
-
 
 // function for sending emit to all connected sockets
 var sendAll = function(messageType, data) {
@@ -77,7 +84,7 @@ var getUser = function(users, id) {
 };
 
 var addPoints = function(user) {
-  user.score += 5;
+  user.score += 100-Math.round((Date.now()-startTime)/100);
   console.log('increased score of ', user.name, ' to ', user.score);
 };
 
@@ -124,6 +131,11 @@ io.on('connection', function (socket) {
       console.log('wrong answer');
     }
 
+  });
+
+  socket.on('updateData', function() {
+    console.log('user requested data ', socket.id);
+    socket.emit('updatedData', getUser(userData,socket.id));
   });
 
 

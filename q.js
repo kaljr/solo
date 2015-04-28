@@ -110,3 +110,13 @@ socket.on('answers', function(ans) {
   // update answers model
   answers.add(ans);
 });
+
+socket.on('endQ', function() {
+  console.log('server sent end event');
+  socket.emit('updateData');
+});
+
+socket.on('updatedData', function(data) {
+  console.log('server sent updated data', data);
+  user.set('score',data.score);
+});
