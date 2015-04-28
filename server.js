@@ -22,13 +22,17 @@ var currentQ = null; // current question
 
 // create questions array (question, answer, wrong answers)
 var questions = [
-  {q: 'What color is the sky?',a: 'blue',na: 'red;green;orange;yellow;'},
-  {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt;'},
+  {q: 'What color is the sky?',a: 'blue',na: 'red;green;orange;yellow'},
+  {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt'},
 ];
 
 // start quiz
 var startQuiz = function() {
-  askQ();
+  currentQ = questions.shift();
+  askQ(currentQ);
+  // parse answers
+  // send answers
+  sendAnswers(parseAnswers(currentQ));
 };
 
 // create function to check if quiz is full
@@ -47,9 +51,22 @@ var sendAll = function(messageType, data) {
 };
 
 // function for asking a question
-var askQ = function() {
-  currentQ = questions.shift();
-  sendAll('question', {q: currentQ.q});
+var askQ = function(question) {
+  sendAll('question', {q: question.q});
+};
+
+var sendAnswers = function(answers) {
+  sendAll('answers', answers);
+};
+
+var parseAnswers = function(question) {
+  var answers = question.na.split(';');
+  answers.push(question.a);
+  // wrap in objects
+  answers = answers.map(function(answer) {
+    return {a: answer};
+  });
+  return answers;
 };
 
 

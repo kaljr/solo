@@ -45,7 +45,11 @@ var ASView = Backbone.View.extend({
     this.render();
   },
   render: function() {
-
+    var rendered = '';
+    this.collection.toJSON().forEach(function(answer) {
+      rendered += '<div class="answer">'+answer.a+'</div>';
+    });
+    return this.$el.html(rendered);
   }
 });
 
@@ -72,7 +76,7 @@ socket.on('connectMessage', function (data) {
   }
 });
 
-// after user enters name
+// after user enters name, run some initializations
 socket.on('userDataPush', function(data) {
   // create backbone models/views, associate with DOM
   user = new User(data);
@@ -81,6 +85,10 @@ socket.on('userDataPush', function(data) {
   // question model/view
   question = new Q({q: 'Waiting for the game to start...'});
   new QView({model: question,el: $('#questionBox')});
+  // answer collection/view
+  answers = new AS();
+  new ASView({collection: answers,el: $('#answerBox')});
+
 });
 
 // server sends us a question!
@@ -89,5 +97,9 @@ socket.on('question', function(q) {
   // update question model
   question.set('q',q.q);
   // update timer model
+});
+
+socket.on('answers', function(ans) {
   // update answers model
+  answers.add(ans);
 });
