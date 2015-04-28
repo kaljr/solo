@@ -13,8 +13,14 @@ server.listen(3000);
 
 console.log('listening on port 3000');
 
-// create sockets array
+// create sockets array (holds all connections)
 var sockets = [];
+
+// create questions array (question, answer, wrong answers)
+var questions = [
+  {q: 'What color is the sky?',a: 'blue',na: 'red;green;orange;yellow;'},
+  {q: 'Why did the chicken cross the road?',a: 'To get to the other side', na: 'To go to Hack Reactor;Onions;Yard sale;It didnt;'},
+];
 
 // when there is a connection, do this
 io.on('connection', function (socket) {

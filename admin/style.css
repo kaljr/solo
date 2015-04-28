@@ -1,0 +1,36 @@
+body {
+  background: #f1f1f1;
+  color: #333;
+  font-size: 36px;
+}
+.name {
+  width: 300px;
+}
+
+.score {
+  width: 50px;
+  text-align: center;
+}
+
+.title {
+  width: 100%;
+  background: #444;
+  color: #ccc;
+}
+
+.tableContainer {
+  width: 380px;
+}
+
+#userTable {
+  border: 1px solid #999;
+  display: inline-block;
+  width: 380px;
+}
+
+#userTable span {
+  padding: 6px 4px;
+  margin: 2px;
+  background: #c5c5c5;
+  display: inline-block;
+}
