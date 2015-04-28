@@ -19,9 +19,7 @@
     // listen for click on admin button
     $('#login').on('click', connectAsAdmin);
 
-    // create backbone models/views, associate with DOM
-    var allUsers = new Users({name:'someuser'});
-    new UsersTable({model: allUsers,el: $('#userTable')});
+
     console.log('ready');
   });
   </script>
