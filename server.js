@@ -13,8 +13,19 @@ server.listen(3000);
 
 console.log('listening on port 3000');
 
-// create sockets array (holds all connections)
-var sockets = [];
+// initialize vars
+var sockets = []; // create sockets array (holds all connections)
+var adminSocket = null;
+var quizFull = false;
+var maxPlayers = 15;
+
+// create function to check if quiz is full
+var isQuizFull = function() {
+  if(sockets.length >= maxPlayers) {
+    quizFull = true;
+  }
+  return quizFull;
+};
 
 // create questions array (question, answer, wrong answers)
 var questions = [
@@ -30,7 +41,8 @@ io.on('connection', function (socket) {
   // send message to acknowledge connection
   socket.emit('connectMessage', {
     message: 'you are connected',
-    socketInfo: sockets[sockets.length-1]
+    socketInfo: sockets[sockets.length-1],
+    full: isQuizFull()
   });
 
   // handle admin connection
@@ -38,6 +50,7 @@ io.on('connection', function (socket) {
     if(data.adminSecret === 'kennyynnek') {
       console.log('admin connected');
       socket.emit('usersDataPush', {users: sockets});
+      adminSocket = socket;
     } else {
       console.log('admin not connected');
     }
@@ -47,6 +60,7 @@ io.on('connection', function (socket) {
     // add object associated with this socketid to sockets array
     sockets.push({id: socket.id, name: data.name, score: 0, team: null});
     socket.emit('userDataPush', sockets[sockets.length-1]);
+    if(adminSocket) adminSocket.emit('usersDataPush', {users: sockets}) // push to admin page
   });
 
 
