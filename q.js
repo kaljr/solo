@@ -50,8 +50,12 @@ var ASView = Backbone.View.extend({
       rendered += '<button class="answer" value="'+answer.a+'">'+answer.a+'</button>';
     });
     this.$el.html(rendered);
+
+    // when user selects answer, do this
     $('.answer').on('click', function(e) {
       console.log(e.currentTarget.innerText);
+      socket.emit('selectedAnswer', {a: e.currentTarget.innerText});
+      $('.answer').off();
     });
   }
 });

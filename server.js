@@ -30,8 +30,7 @@ var questions = [
 var startQuiz = function() {
   currentQ = questions.shift();
   askQ(currentQ);
-  // parse answers
-  // send answers
+  // parse answers // send answers
   sendAnswers(parseAnswers(currentQ));
 };
 
@@ -69,6 +68,19 @@ var parseAnswers = function(question) {
   return answers;
 };
 
+var getUser = function(users, id) {
+  for(var i=0;i<users.length;i++) {
+    if(users[i].id === id) {
+      return users[i];
+    }
+  }
+};
+
+var addPoints = function(user) {
+  user.score += 5;
+  console.log('increased score of ', user.name, ' to ', user.score);
+};
+
 
 // when there is a connection, do this
 io.on('connection', function (socket) {
@@ -102,11 +114,14 @@ io.on('connection', function (socket) {
   });
 
   // handle answer from players
-  socket.on('answer', function(data) {
-    if(data.a === q.a) {
+  socket.on('selectedAnswer', function(data) {
+    if(data.a === currentQ.a) {
       // right answer
+      addPoints(getUser(userData, socket.id));
+      console.log('right answer');
     } else {
       // wrong answer
+      console.log('wrong answer');
     }
 
   });
