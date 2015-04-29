@@ -30,13 +30,14 @@ var highScore = 0;
 var questions = [
   {q: 'What color is the sky?',a: 'blue',na: 'red;green;orange;yellow'},
   {q: 'Why did the chicken cross the road?',a: 'Other', na: 'Hack Reactor;Onions;Yard sale;It didnt'},
+  {q: 'evaluate 5%2+12-5*2', a: '3', na: '10;7;1;infinity'}
 ];
 
 // nextQ
 var nextQ = function() {
   quizFull = true;
   quizStarted = true;
-  currentQ = questions.pop();
+  currentQ = questions.shift();
   setTimeout(endQ, timeToAnswer);
   askQ(currentQ);
   // parse answers // send answers
@@ -94,6 +95,11 @@ var parseAnswers = function(question) {
   answers = answers.map(function(answer) {
     return {a: answer};
   });
+
+  var rand = Math.floor(Math.random()*4);
+  var temp = answers[4];
+  answers[4] = answers[rand];
+  answers[rand] = temp;
   return answers;
 };
 

@@ -126,9 +126,9 @@ socket.on('gameOver', function(winner) {
   if(user.id === winner.id) {
     // you won
     console.log('you win');
-    $('#questionBox').html(user.name,', You Won!');
+    $('#questionBox').html('You Won!');
   } else {
     // you lost
-    $('#questionBox').html(user.name,', You Lost!');
+    $('#questionBox').html('You Lost!');
   }
 });
