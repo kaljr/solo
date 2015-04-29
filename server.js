@@ -18,11 +18,13 @@ var userData = [];
 var adminSocket = null; // special socket for admin
 var quizFull = false;
 var quizStarted = false;
-var maxPlayers = 2;
+var maxPlayers = 8;
 var currentQ = null; // current question 
 var timeToAnswer = 10 * 1000; // time given to answer question
 var timeBetweenQs = 3 * 1000; // time to wait before asking next question
 var startTime = null;
+var winner = null;
+var highScore = 0;
 
 // create questions array (question, answer, wrong answers)
 var questions = [
@@ -50,7 +52,14 @@ var endQ = function() {
   } else {
     // game is over, send game over event, tell winner
     console.log('game is over peeps');
-    io.emit('gameOver', {});
+    userData.forEach(function(user) {
+      if(user.score > highScore) {
+        highScore = user.score;
+        winner = user;
+      }
+    });
+    console.log('winner: ',winner.id);
+    sendAll('gameOver', {id: winner.id});
   }
 };
 

@@ -120,3 +120,15 @@ socket.on('updatedData', function(data) {
   console.log('server sent updated data', data);
   user.set('score',data.score);
 });
+
+socket.on('gameOver', function(winner) {
+  console.log(winner.id,user.id);
+  if(user.id === winner.id) {
+    // you won
+    console.log('you win');
+    $('#questionBox').html(user.name,', You Won!');
+  } else {
+    // you lost
+    $('#questionBox').html(user.name,', You Lost!');
+  }
+});
